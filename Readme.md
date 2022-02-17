@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Максим Шлычков](https://up.htmlacademy.ru/javascript/25/user/1896705).
-* Наставник: `Неизвестно`.
+* Наставник: [Владислав Доролев](https://htmlacademy.ru/profile/dorovlev).
 
 ---
 
