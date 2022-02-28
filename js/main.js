@@ -19,13 +19,13 @@ const FEATURES = [
   'washer',
   'elevator',
   'conditioner'
-]
+];
 
 const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-]
+];
 
 const AD_COUNT = 10;
 
@@ -34,45 +34,45 @@ function getType (a,b) {
     return false;
   }
 
-  alert('Вы ввели не числовое значение');
   return true;
-};
+}
 
 function getRandomInteger (start = 1, end = 10) {
   if (getType(start, end)) {
-    return false
+    return false;
   }
 
   const lower = Math.ceil(Math.min(Math.abs(start), Math.abs(end)));
   const upper = Math.floor(Math.max(Math.abs(start), Math.abs(end)));
 
   return Math.floor(Math.random() * (upper - lower + 1) + lower);
-};
+}
 
 function getRandomFloat (start, end, floatSigns = 1) {
   if (getType(start, end)) {
-    return false
+    return false;
   }
 
   const lower = Math.min(Math.abs(start), Math.abs(end));
   const upper = Math.max(Math.abs(start), Math.abs(end));
 
   return +(Math.random() * (upper - lower) + lower).toFixed(floatSigns);
-};
+}
 
 const createAvatar = () => {
   const avatarIndex = getRandomInteger(1, 10);
-  let avatar = '0' + avatarIndex.toString();
+  let avatar = `0${avatarIndex.toString()}`;
 
   if (avatarIndex === 10) {
     avatar = avatarIndex.toString();
   }
 
-  return 'img/avatars/user' + avatar + '.png';
+  return `img/avatars/user${avatar}.png`;
 };
 
 const getRandomArrayElement = (elements) => {
-  return elements[getRandomInteger(0, elements.length - 1)];
+  const element = elements[getRandomInteger(0, elements.length - 1)];
+  return element;
 };
 
 const createRandomArray = (array) => {
@@ -100,6 +100,9 @@ const createRandomArrayOrder = (array) => {
 };
 
 function createAd () {
+  const locationLat = getRandomFloat(35.65000, 35.70000, 5);
+  const locationLng = getRandomFloat(139.70000, 139.80000, 5);
+
   return {
     author: {
       avatar: createAvatar()
@@ -107,7 +110,7 @@ function createAd () {
 
     offer: {
       title: 'hello',
-      addres: '{{location.lat}}, {{location.lng}}',
+      addres: `${locationLat}, ${locationLng}`,
       price: getRandomInteger(1, 100000),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomInteger(1, 10),
@@ -120,15 +123,16 @@ function createAd () {
     },
 
     location: {
-      lat: getRandomFloat(35.65000, 35.70000, 5),
-      lng: getRandomFloat(139.70000,139.80000, 5)
+      lat: locationLat,
+      lng: locationLng
     }
-  }
-};
+  };
+}
 
 getRandomInteger(1,2);
 getRandomFloat(1.1, 1.7, 3);
 
 const ads = Array.from({length: AD_COUNT}, createAd);
 
-console.log(ads);
+const someFunc = () => ads;
+someFunc();
