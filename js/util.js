@@ -24,8 +24,6 @@ const getRandomArrayElement = (elements) => {
   return element;
 };
 
-const createRandomArray = (array) => {
-  return array.filter(() => getRandomInteger(0,1) === 1);
-};
+const createRandomArray = (array) => array.filter(() => getRandomInteger(0,1) === 1);
 
 export {getRandomInteger, getRandomFloat, createAvatar, getRandomArrayElement, createRandomArray};
