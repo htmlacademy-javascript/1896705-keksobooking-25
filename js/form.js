@@ -5,9 +5,9 @@ const mapSelects = mapForm.querySelectorAll('select');
 const mapFildsets = mapForm.querySelectorAll('fieldset');
 
 const disablePage = (lock) => {
-  mapSelects.forEach((item) => item.disabled = lock);
-  mapFildsets.forEach((item) => item.disabled = lock);
-  adFieldsets.forEach((item) => item.disabled = lock);
+  mapSelects.forEach((item) => (item.disabled = lock));
+  mapFildsets.forEach((item) => (item.disabled = lock));
+  adFieldsets.forEach((item) => (item.disabled = lock));
 
   if(lock === true) {
     adForm.classList.add('ad-form--disabled');
