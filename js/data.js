@@ -42,11 +42,11 @@ function createAd () {
 
     offer: {
       title: 'hello',
-      addres: `${locationLat}, ${locationLng}`,
-      price: getRandomInteger(1, 100000),
+      address: `${locationLat}, ${locationLng}`,
+      price: getRandomInteger(1, 10000),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomInteger(1, 10),
-      guests: getRandomInteger(1, 7),
+      rooms: getRandomInteger(1, 5),
+      guests: getRandomInteger(2, 7),
       checkin: getRandomArrayElement(CHECKINS),
       checkout: getRandomArrayElement(CHECKINS),
       features: createRandomArray(FEATURES),
