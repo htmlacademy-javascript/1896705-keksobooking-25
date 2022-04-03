@@ -49,7 +49,7 @@ function validatePrice (value) {
 }
 
 function getPriceErrorMessage () {
-  return `Минимальная цена выбранного типа размещения равна ${TYPE_MIN_PRICE[adFormType.value]} руб.`;
+  return `Минимальная цена размещения равна ${TYPE_MIN_PRICE[adFormType.value]} руб.`;
 }
 
 pristine.addValidator(adFormPrice, validatePrice, getPriceErrorMessage);
