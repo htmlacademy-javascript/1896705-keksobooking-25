@@ -87,6 +87,6 @@ const resetMap = () => {
   }, 10);
 
   address.value = `${START_LAT}, ${START_LNG}`;
-}
+};
 
-export {createMarker, resetMap}
+export {createMarker, resetMap};

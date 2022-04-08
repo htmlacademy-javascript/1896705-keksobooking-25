@@ -122,9 +122,9 @@ const setUserFormSubmit = () => {
       );
     }
   });
-}
+};
 
-adForm.addEventListener('reset', (evt) => {
+adForm.addEventListener('reset', () => {
   resetMap();
   sliderPrice.noUiSlider.set(0);
 });
