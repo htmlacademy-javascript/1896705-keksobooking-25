@@ -1,4 +1,4 @@
 import './map.js';
-import {disablePage} from './form.js';
+import './slider.js';
 
-disablePage(false);
+

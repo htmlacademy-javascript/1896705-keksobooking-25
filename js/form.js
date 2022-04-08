@@ -1,3 +1,5 @@
+import {createSlider} from './slider.js';
+
 const TYPE_MIN_PRICE = {
   'palace': 10000,
   'flat': 1000,
@@ -26,7 +28,7 @@ const pristine = new Pristine(adForm, {
   successClass: 'form__element--valid',
   errorTextParent: 'ad-form__element',
   errorTextTag: 'span',
-  errorTextClass: 'form__error'
+  errorTextClass: 'ad-form__error'
 });
 
 const disablePage = (lock) => {
@@ -34,18 +36,18 @@ const disablePage = (lock) => {
   mapFildsets.forEach((item) => (item.disabled = lock));
   adFieldsets.forEach((item) => (item.disabled = lock));
 
-  if(lock === true) {
+  if(lock) {
     adForm.classList.add('ad-form--disabled');
     mapForm.classList.add('map__filters--disabled');
   }
-  if(lock === false) {
+  if(!lock) {
     adForm.classList.remove('ad-form--disabled');
     mapForm.classList.remove('map__filters--disabled');
   }
 };
 
-function validatePrice (value) {
-  return +value >= TYPE_MIN_PRICE[adFormType.value];
+function validatePrice (price) {
+  return +price >= TYPE_MIN_PRICE[adFormType.value];
 }
 
 function getPriceErrorMessage () {
@@ -65,12 +67,24 @@ function onPriceChange () {
 
 adFormType.addEventListener('change', onPriceChange);
 
-function validateCapacity (value) {
-  return (+adFormRooms.value === MAX_ROOMS && !+value) || (+value && +value <= +adFormRooms.value && +adFormRooms.value !== MAX_ROOMS);
+const sliderPrice = createSlider();
+
+sliderPrice.noUiSlider.on('change', () => {
+  pristine.validate(adFormPrice);
+});
+
+function validateCapacity (amountGuests) {
+  const amountRooms = adFormRooms.value;
+  const roomsCheck = +amountGuests <= +amountRooms;
+
+  const firstCheck = +amountRooms === MAX_ROOMS && !+amountGuests;
+  const secondCheck = +amountGuests && roomsCheck && +amountRooms !== MAX_ROOMS;
+
+  return firstCheck || secondCheck;
 }
 
 function getCapacityErrorMessage () {
-  return +adFormRooms.value === MAX_ROOMS ? '100 комнат на для гостей' : `Выберите количество гостей, максимум: ${adFormRooms.value}`;
+  return +adFormRooms.value === MAX_ROOMS ? '100 комнат не для гостей' : `Выберите количество гостей, максимум: ${adFormRooms.value}`;
 }
 
 pristine.addValidator(adFormCapacity, validateCapacity, getCapacityErrorMessage);
@@ -94,4 +108,4 @@ adForm.addEventListener('submit', (evt) => {
   }
 });
 
-export {disablePage};
+export {disablePage, TYPE_MIN_PRICE};
