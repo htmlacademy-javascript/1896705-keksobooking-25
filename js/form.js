@@ -1,4 +1,6 @@
 import {createSlider} from './slider.js';
+import {resetMap} from './map.js';
+import {sendData} from './api.js';
 
 const TYPE_MIN_PRICE = {
   'palace': 10000,
@@ -73,12 +75,13 @@ sliderPrice.noUiSlider.on('change', () => {
   pristine.validate(adFormPrice);
 });
 
-function validateCapacity (amountGuests) {
-  const amountRooms = adFormRooms.value;
-  const roomsCheck = +amountGuests <= +amountRooms;
+function validateCapacity (value) {
+  const amountGuests = +value;
+  const amountRooms = +adFormRooms.value;
+  const roomsCheck = amountGuests <= amountRooms;
 
-  const firstCheck = +amountRooms === MAX_ROOMS && !+amountGuests;
-  const secondCheck = +amountGuests && roomsCheck && +amountRooms !== MAX_ROOMS;
+  const firstCheck = amountRooms === MAX_ROOMS && !amountGuests;
+  const secondCheck = amountGuests && roomsCheck && amountRooms !== MAX_ROOMS;
 
   return firstCheck || secondCheck;
 }
@@ -98,14 +101,32 @@ function setTime (firstEl, secondEl) {
 adFormTimeIn.addEventListener('change', () => setTime(adFormTimeIn, adFormTimeOut));
 adFormTimeOut.addEventListener('change', () => setTime(adFormTimeOut, adFormTimeIn));
 
-adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+const setUserFormSubmit = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
 
-  const isValid = pristine.validate();
+    sliderPrice.noUiSlider.set(0);
 
-  if (isValid) {
-    adForm.submit();
-  }
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      sendData(
+        () => {
+          resetMap();
+          adForm.reset();
+        },
+        () => {
+          console.log('Не удалось отправить форму. Попробуйте ещё раз');
+        },
+        new FormData(evt.target)
+      );
+    }
+  });
+};
+
+adForm.addEventListener('reset', () => {
+  resetMap();
+  sliderPrice.noUiSlider.set(0);
 });
 
-export {disablePage, TYPE_MIN_PRICE};
+export {disablePage, TYPE_MIN_PRICE, setUserFormSubmit};
