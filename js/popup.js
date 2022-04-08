@@ -52,17 +52,65 @@ const createRoomsString = (rooms, guests, clone) => {
 const createSingleCard = (({author, offer}) => {
   const cardElement = similarCardTemplate.cloneNode(true);
 
-  cardElement.querySelector('.popup__title').textContent = offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  cardElement.querySelector('.popup__type').textContent = TYPES[offer.type];
-  createRoomsString(offer.rooms, offer.guests, cardElement);
-  cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  createFeaturesList(offer.features, cardElement);
-  cardElement.querySelector('.popup__description').textContent = offer.description;
-  createPhotosList(offer.photos, cardElement);
-  cardElement.querySelector('.popup__avatar').src = author.avatar;
+  if (offer.title) {
+    cardElement.querySelector('.popup__title').textContent = offer.title;
+  } else {
+    cardElement.querySelector('.popup__title').classList.add('hidden');
+  }
 
+  if (offer.address) {
+    cardElement.querySelector('.popup__text--address').textContent = offer.address;
+  } else {
+    cardElement.querySelector('.popup__text--address').classList.add('hidden');
+  }
+
+  if (offer.price) {
+    cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
+  } else {
+    cardElement.querySelector('.popup__text--price').classList.add('hidden');
+  }
+
+  if (offer.type) {
+    cardElement.querySelector('.popup__type').textContent = TYPES[offer.type];
+  } else {
+    cardElement.querySelector('.popup__type').classList.add('hidden');
+  }
+
+  if (offer.rooms && offer.guests) {
+    createRoomsString(offer.rooms, offer.guests, cardElement);
+  } else {
+    cardElement.querySelector('.popup__text--capacity').classList.add('hidden');
+  }
+
+  if (offer.checkin && offer.checkout) {
+    cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+  } else {
+    cardElement.querySelector('.popup__text--time').classList.add('hidden');
+  }
+
+  if (offer.features) {
+    createFeaturesList(offer.features, cardElement);
+  } else {
+    cardElement.querySelector('.popup__features').classList.add('hidden');
+  }
+
+  if (offer.description) {
+    cardElement.querySelector('.popup__description').textContent = offer.description;
+  } else {
+    cardElement.querySelector('.popup__description').classList.add('hidden');
+  }
+
+  if (offer.photos) {
+    createPhotosList(offer.photos, cardElement);
+  } else {
+    cardElement.querySelector('.popup__photos').classList.add('hidden');
+  }
+
+  if (author.avatar) {
+    cardElement.querySelector('.popup__avatar').src = author.avatar;
+  } else {
+    cardElement.querySelector('.popup__avatar').classList.add('hidden');
+  }
   return cardElement;
 });
 

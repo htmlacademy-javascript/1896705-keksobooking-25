@@ -1,8 +1,6 @@
 import {createSingleCard} from './popup.js';
-import {createAds} from './data.js';
 import {disablePage} from './form.js';
 
-const similarAds = createAds();
 const adForm = document.querySelector('.ad-form');
 const address = adForm.querySelector('#address');
 
@@ -59,29 +57,26 @@ mainPinMarker.on('moveend', (evt) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (ad) => {
-  const {lat, lng} = ad.location;
+const createMarker = (ads) => {
+  ads.forEach((ad) => {
+    const {lat, lng} = ad.location;
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon: otherPinIcon,
+      },
+    );
 
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon: otherPinIcon,
-    },
-  );
-
-  marker
-    .addTo(markerGroup)
-    .bindPopup(createSingleCard(ad));
+    marker
+      .addTo(markerGroup)
+      .bindPopup(createSingleCard(ad));
+  });
 };
 
-similarAds.forEach((ad) => {
-  createMarker(ad);
-});
-
-adForm.addEventListener('reset', () => {
+const resetMap = () => {
   mainPinMarker.setLatLng({
     lat: START_LAT,
     lng: START_LNG,
@@ -92,15 +87,6 @@ adForm.addEventListener('reset', () => {
   }, 10);
 
   address.value = `${START_LAT}, ${START_LNG}`;
-});
+}
 
-adForm.addEventListener('sumbit', () => {
-  mainPinMarker.setLatLng({
-    lat: START_LAT,
-    lng: START_LNG,
-  });
-  map.setView({
-    lat: START_LAT,
-    lng: START_LNG,
-  }, 10);
-});
+export {createMarker, resetMap}
