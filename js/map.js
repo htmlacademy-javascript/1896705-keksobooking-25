@@ -58,7 +58,7 @@ mainPinMarker.on('moveend', (evt) => {
 const markerGroup = L.layerGroup().addTo(map);
 
 const createMarker = (ads) => {
-  ads.forEach((ad) => {
+  ads.slice(0,10).forEach((ad) => {
     const {lat, lng} = ad.location;
     const marker = L.marker(
       {
@@ -76,6 +76,10 @@ const createMarker = (ads) => {
   });
 };
 
+const resetMarkers = () => {
+  markerGroup.clearLayers();
+};
+
 const resetMap = () => {
   mainPinMarker.setLatLng({
     lat: START_LAT,
@@ -89,4 +93,4 @@ const resetMap = () => {
   address.value = `${START_LAT}, ${START_LNG}`;
 };
 
-export {createMarker, resetMap};
+export {createMarker, resetMarkers, resetMap};
