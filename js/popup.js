@@ -9,18 +9,18 @@ const TYPES = {
 };
 
 const createFeaturesList = (arr, clone) => {
-  const featureList = clone.querySelectorAll('.popup__feature');
+  const features = clone.querySelectorAll('.popup__feature');
   const modifiers = arr.map((feature) => `popup__feature--${feature}`);
 
-  featureList.forEach((featureListItem) => {
-    const modifier = featureListItem.classList[1];
+  features.forEach((feature) => {
+    const modifier = feature.classList[1];
 
     if (!modifiers.includes(modifier)) {
-      featureListItem.remove();
+      feature.remove();
     }
   });
 
-  return featureList;
+  return features;
 };
 
 const createPhotosList = (arr, clone) => {
