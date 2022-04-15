@@ -14,9 +14,9 @@ const mapFormRoom = mapForm.querySelector('#housing-rooms');
 const mapFormGuest = mapForm.querySelector('#housing-guests');
 const mapFormFeatures = mapForm.querySelector('#housing-features');
 
-const housingTypeFilter = (ad) => mapFormType.value === ad.offer.type || mapFormType.value === DEFAULT_FILTER_VALUE;
+const filterType = (ad) => mapFormType.value === ad.offer.type || mapFormType.value === DEFAULT_FILTER_VALUE;
 
-const housingPriceFilter = (ad) => {
+const filterPrice = (ad) => {
   const filterPriceCategory = {
     low: ad.offer.price < PriceRange.MIN,
     middle: ad.offer.price >= PriceRange.MIN && ad.offer.price < PriceRange.MAX,
@@ -26,11 +26,11 @@ const housingPriceFilter = (ad) => {
   return mapFormPrice.value === DEFAULT_FILTER_VALUE || filterPriceCategory[mapFormPrice.value];
 };
 
-const housingRoomFilter = (ad) => +mapFormRoom.value === ad.offer.rooms || mapFormRoom.value === DEFAULT_FILTER_VALUE;
+const filterRoom = (ad) => +mapFormRoom.value === ad.offer.rooms || mapFormRoom.value === DEFAULT_FILTER_VALUE;
 
-const housingGuestFilter = (ad) => +mapFormGuest.value === ad.offer.guests || mapFormGuest.value === DEFAULT_FILTER_VALUE;
+const filterGuest = (ad) => +mapFormGuest.value === ad.offer.guests || mapFormGuest.value === DEFAULT_FILTER_VALUE;
 
-const housingFeatureFilter = (ad) => {
+const filterFeature = (ad) => {
   const checkedFeatures = Array.from(mapFormFeatures.querySelectorAll('.map__checkbox:checked')).map((feature) => feature.value);
 
   if (checkedFeatures.length !== 0) {
@@ -65,7 +65,7 @@ const compareAds = (adA, adB) => {
   return rankB - rankA;
 };
 
-const filter = (ads) => ads.filter((ad) => housingTypeFilter(ad) && housingPriceFilter(ad) && housingRoomFilter(ad) && housingGuestFilter(ad) && housingFeatureFilter(ad));
+const filter = (ads) => ads.filter((ad) => filterType(ad) && filterPrice(ad) && filterRoom(ad) && filterGuest(ad) && filterFeature(ad));
 
 const updateMarkers = (ads) => {
   resetMap();
