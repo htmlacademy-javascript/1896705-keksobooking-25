@@ -598,6 +598,14 @@ fieldset {
 }
 
 .ad-form__photo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+          justify-content: center;
+
   margin-right: 10px;
   margin-bottom: 10px;
 
@@ -952,7 +960,8 @@ fieldset {
  */
 
 .success,
-.error {
+.error,
+.load-error {
   position: fixed;
   top: 0;
   left: 0;
@@ -974,7 +983,8 @@ fieldset {
 }
 
 .success__message,
-.error__message {
+.error__message,
+.load-error__message {
   position: relative;
 
   color: #ffffff;
@@ -983,7 +993,8 @@ fieldset {
 }
 
 .success__message::before,
-.error__message::before {
+.error__message::before,
+.load-error__message::before {
   content: "";
   position: absolute;
 

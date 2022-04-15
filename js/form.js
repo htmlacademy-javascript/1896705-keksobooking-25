@@ -1,6 +1,8 @@
 import {createSlider} from './slider.js';
 import {resetMap} from './map.js';
 import {sendData} from './api.js';
+import {clearPhotos} from './photo.js';
+import {showMessage, successTemplate, errorTemplate} from './warnings.js';
 
 const TYPE_MIN_PRICE = {
   'palace': 10000,
@@ -20,6 +22,7 @@ const adFormRooms = adForm.querySelector('#room_number');
 const adFormCapacity = adForm.querySelector('#capacity');
 const adFormTimeIn = adForm.querySelector('#timein');
 const adFormTimeOut = adForm.querySelector('#timeout');
+
 const mapForm = document.querySelector('.map__filters');
 const mapSelects = mapForm.querySelectorAll('select');
 const mapFildsets = mapForm.querySelectorAll('fieldset');
@@ -113,10 +116,12 @@ const setUserFormSubmit = () => {
       sendData(
         () => {
           resetMap();
+          clearPhotos();
           adForm.reset();
+          showMessage(successTemplate);
         },
         () => {
-          console.log('Не удалось отправить форму. Попробуйте ещё раз');
+          showMessage(errorTemplate);
         },
         new FormData(evt.target)
       );
@@ -126,6 +131,7 @@ const setUserFormSubmit = () => {
 
 adForm.addEventListener('reset', () => {
   resetMap();
+  clearPhotos();
   sliderPrice.noUiSlider.set(0);
 });
 

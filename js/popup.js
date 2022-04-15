@@ -49,26 +49,22 @@ const createRoomsString = (rooms, guests, clone) => {
   }
 };
 
+const availabilityCheck = (card, data, dataClass) => {
+  if (data) {
+    card.querySelector(dataClass).textContent = data;
+  } else {
+    card.querySelector(dataClass).classList.add('hidden');
+  }
+};
+
 const createSingleCard = (({author, offer}) => {
   const cardElement = similarCardTemplate.cloneNode(true);
 
-  if (offer.title) {
-    cardElement.querySelector('.popup__title').textContent = offer.title;
-  } else {
-    cardElement.querySelector('.popup__title').classList.add('hidden');
-  }
-
-  if (offer.address) {
-    cardElement.querySelector('.popup__text--address').textContent = offer.address;
-  } else {
-    cardElement.querySelector('.popup__text--address').classList.add('hidden');
-  }
-
-  if (offer.price) {
-    cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  } else {
-    cardElement.querySelector('.popup__text--price').classList.add('hidden');
-  }
+  availabilityCheck(cardElement, offer.title, '.popup__title');
+  availabilityCheck(cardElement, offer.address, '.popup__text--address');
+  availabilityCheck(cardElement, offer.price, '.popup__text--price');
+  availabilityCheck(cardElement, offer.description, '.popup__description');
+  availabilityCheck(cardElement, author.avatar, '.popup__avatar');
 
   if (offer.type) {
     cardElement.querySelector('.popup__type').textContent = TYPES[offer.type];
@@ -94,23 +90,12 @@ const createSingleCard = (({author, offer}) => {
     cardElement.querySelector('.popup__features').classList.add('hidden');
   }
 
-  if (offer.description) {
-    cardElement.querySelector('.popup__description').textContent = offer.description;
-  } else {
-    cardElement.querySelector('.popup__description').classList.add('hidden');
-  }
-
   if (offer.photos) {
     createPhotosList(offer.photos, cardElement);
   } else {
     cardElement.querySelector('.popup__photos').classList.add('hidden');
   }
 
-  if (author.avatar) {
-    cardElement.querySelector('.popup__avatar').src = author.avatar;
-  } else {
-    cardElement.querySelector('.popup__avatar').classList.add('hidden');
-  }
   return cardElement;
 });
 

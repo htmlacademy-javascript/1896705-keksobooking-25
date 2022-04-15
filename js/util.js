@@ -26,4 +26,16 @@ const getRandomArrayElement = (elements) => {
 
 const createRandomArray = (array) => array.filter(() => getRandomInteger(0,1) === 1);
 
-export {getRandomInteger, getRandomFloat, createAvatar, getRandomArrayElement, createRandomArray};
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+
+export {getRandomInteger, getRandomFloat, createAvatar, getRandomArrayElement, createRandomArray, debounce, isEscapeKey};
