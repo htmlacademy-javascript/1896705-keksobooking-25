@@ -1,7 +1,7 @@
 const API_URL = 'https://25.javascript.pages.academy/keksobooking';
 
 const getData = (onSuccess, onFail) => {
-  fetch(`${API_URL}/data`)
+  fetch(`${API_URL}/dat`)
     .then((response) => response.json())
     .then((items) => {
       onSuccess(items);

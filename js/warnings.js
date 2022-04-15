@@ -16,6 +16,7 @@ const showMessage = (template) => {
   };
 
   function closeModal () {
+    message.removeEventListener('click', closeModal);
     message.remove();
     document.removeEventListener('keydown', onPopupEscKeydown);
   }
