@@ -8,9 +8,9 @@ const TYPES = {
   'hotel': 'Отель'
 };
 
-const createFeaturesList = (arr, clone) => {
+const createFeaturesList = (data, clone) => {
   const features = clone.querySelectorAll('.popup__feature');
-  const modifiers = arr.map((feature) => `popup__feature--${feature}`);
+  const modifiers = data.map((feature) => `popup__feature--${feature}`);
 
   features.forEach((feature) => {
     const modifier = feature.classList[1];
@@ -23,12 +23,12 @@ const createFeaturesList = (arr, clone) => {
   return features;
 };
 
-const createPhotosList = (arr, clone) => {
+const createPhotosList = (data, clone) => {
   const photoContainer = clone.querySelector('.popup__photos');
   const photoTemplate = photoContainer.querySelector('.popup__photo');
   photoContainer.innerHTML = '';
 
-  arr.forEach((photo) => {
+  data.forEach((photo) => {
     const newPhoto = photoTemplate.cloneNode(true);
     newPhoto.src = photo;
     photoContainer.append(newPhoto);

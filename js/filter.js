@@ -13,6 +13,8 @@ const mapFormPrice = mapForm.querySelector('#housing-price');
 const mapFormRoom = mapForm.querySelector('#housing-rooms');
 const mapFormGuest = mapForm.querySelector('#housing-guests');
 const mapFormFeatures = mapForm.querySelector('#housing-features');
+const mapSelects = mapForm.querySelectorAll('select');
+const mapFildsets = mapForm.querySelectorAll('fieldset');
 
 const filterType = (ad) => mapFormType.value === ad.offer.type || mapFormType.value === DEFAULT_FILTER_VALUE;
 
@@ -77,4 +79,16 @@ const updateMarkers = (ads) => {
 
 const setFilterListener = (cb) => mapForm.addEventListener('change', () => cb());
 
-export {updateMarkers, setFilterListener};
+const disableFilter = (lock) => {
+  mapSelects.forEach((item) => (item.disabled = lock));
+  mapFildsets.forEach((item) => (item.disabled = lock));
+
+  if(lock) {
+    mapForm.classList.add('map__filters--disabled');
+  }
+  if(!lock) {
+    mapForm.classList.remove('map__filters--disabled');
+  }
+};
+
+export {updateMarkers, setFilterListener, disableFilter};
