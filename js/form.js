@@ -1,8 +1,9 @@
 import {createSlider} from './slider.js';
 import {resetMap} from './map.js';
-import {sendData} from './api.js';
+import {sendData, getData} from './api.js';
 import {clearPhotos} from './photo.js';
-import {showMessage, successTemplate, errorTemplate} from './warnings.js';
+import {updateMarkers, disableFilter} from './filter.js';
+import {showMessage, successTemplate, errorTemplate, loadTemplate} from './warnings.js';
 
 const TYPE_MIN_PRICE = {
   'palace': 10000,
@@ -22,6 +23,8 @@ const adFormRooms = adForm.querySelector('#room_number');
 const adFormCapacity = adForm.querySelector('#capacity');
 const adFormTimeIn = adForm.querySelector('#timein');
 const adFormTimeOut = adForm.querySelector('#timeout');
+
+const resetButton = adForm.querySelector('.ad-form__reset');
 
 const mapForm = document.querySelector('.map__filters');
 const mapSelects = mapForm.querySelectorAll('select');
@@ -104,6 +107,20 @@ function setTime (firstEl, secondEl) {
 adFormTimeIn.addEventListener('change', () => setTime(adFormTimeIn, adFormTimeOut));
 adFormTimeOut.addEventListener('change', () => setTime(adFormTimeOut, adFormTimeIn));
 
+const resetDocument = () => {
+  adForm.reset();
+  mapForm.reset();
+  resetMap();
+  clearPhotos();
+
+  getData ((ads) => {
+    updateMarkers(ads);
+  },() => {
+    showMessage(loadTemplate);
+    disableFilter(true);
+  });
+};
+
 const setUserFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -115,9 +132,7 @@ const setUserFormSubmit = () => {
     if (isValid) {
       sendData(
         () => {
-          resetMap();
-          clearPhotos();
-          adForm.reset();
+          resetDocument();
           showMessage(successTemplate);
         },
         () => {
@@ -129,10 +144,10 @@ const setUserFormSubmit = () => {
   });
 };
 
-adForm.addEventListener('reset', () => {
-  resetMap();
-  clearPhotos();
-  sliderPrice.noUiSlider.set(0);
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+
+  resetDocument();
 });
 
 export {disablePage, TYPE_MIN_PRICE, setUserFormSubmit};

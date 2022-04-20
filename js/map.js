@@ -7,24 +7,23 @@ const address = adForm.querySelector('#address');
 const START_LAT = 35.6895;
 const START_LNG = 139.692;
 
-disablePage(true);
+const getStartСoordinates = () => {
+  address.value = `${START_LAT}, ${START_LNG}`;
+};
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    address.value = `${START_LAT}, ${START_LNG}`;
+const map = L.map('map-canvas');
+
+const initMap = () => {
+  map.on('load', () => {
+    getStartСoordinates();
     disablePage(false);
-  })
-  .setView({
+  }).setView({
     lat:  START_LAT,
     lng: START_LNG,
   }, 10);
+};
 
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const markerGroup = L.layerGroup().addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -48,14 +47,6 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   }
 );
-
-mainPinMarker.addTo(map);
-
-mainPinMarker.on('moveend', (evt) => {
-  address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
-});
-
-const markerGroup = L.layerGroup().addTo(map);
 
 const createMarker = (ads) => {
   ads.slice(0,10).forEach((ad) => {
@@ -90,7 +81,20 @@ const resetMap = () => {
     lng: START_LNG,
   }, 10);
 
-  address.value = `${START_LAT}, ${START_LNG}`;
+  getStartСoordinates();
 };
 
-export {createMarker, resetMarkers, resetMap};
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
+
+mainPinMarker.addTo(map);
+
+mainPinMarker.on('moveend', (evt) => {
+  address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
+});
+
+export {createMarker, resetMarkers, resetMap, initMap};
