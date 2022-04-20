@@ -11,18 +11,18 @@ const showMessage = (template) => {
   const onPopupEscKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      closeModal();
+      onModalClose();
     }
   };
 
-  function closeModal () {
-    message.removeEventListener('click', closeModal);
+  function onModalClose () {
+    message.removeEventListener('click', onModalClose);
     message.remove();
     document.removeEventListener('keydown', onPopupEscKeydown);
   }
 
   document.addEventListener('keydown', onPopupEscKeydown);
-  message.addEventListener('click', closeModal);
+  message.addEventListener('click', onModalClose);
 };
 
 export {showMessage, successTemplate, errorTemplate, loadTemplate};
