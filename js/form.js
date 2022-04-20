@@ -24,7 +24,7 @@ const adFormCapacity = adForm.querySelector('#capacity');
 const adFormTimeIn = adForm.querySelector('#timein');
 const adFormTimeOut = adForm.querySelector('#timeout');
 
-const resetButton = adForm.querySelector('.ad-form__reset')
+const resetButton = adForm.querySelector('.ad-form__reset');
 
 const mapForm = document.querySelector('.map__filters');
 const mapSelects = mapForm.querySelectorAll('select');
@@ -112,13 +112,14 @@ const resetDocument = () => {
   mapForm.reset();
   resetMap();
   clearPhotos();
+
   getData ((ads) => {
     updateMarkers(ads);
   },() => {
     showMessage(loadTemplate);
     disableFilter(true);
   });
-}
+};
 
 const setUserFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {

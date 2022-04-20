@@ -15,14 +15,13 @@ const map = L.map('map-canvas');
 
 const initMap = () => {
   map.on('load', () => {
-    getStartСoordinates()
+    getStartСoordinates();
     disablePage(false);
-  })
-  .setView({
+  }).setView({
     lat:  START_LAT,
     lng: START_LNG,
   }, 10);
-}
+};
 
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -96,7 +95,6 @@ mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
   address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
-  console.log(address)
 });
 
 export {createMarker, resetMarkers, resetMap, initMap};
