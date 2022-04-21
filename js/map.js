@@ -1,11 +1,11 @@
 import {createSingleCard} from './popup.js';
 import {disablePage} from './form.js';
 
-const adForm = document.querySelector('.ad-form');
-const address = adForm.querySelector('#address');
-
 const START_LAT = 35.6895;
 const START_LNG = 139.692;
+
+const adForm = document.querySelector('.ad-form');
+const address = adForm.querySelector('#address');
 
 const getStartСoordinates = () => {
   address.value = `${START_LAT}, ${START_LNG}`;
@@ -22,6 +22,13 @@ const initMap = () => {
     lng: START_LNG,
   }, 10);
 };
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
 
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -47,6 +54,12 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   }
 );
+
+mainPinMarker.addTo(map);
+
+mainPinMarker.on('moveend', (evt) => {
+  address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
+});
 
 const createMarker = (ads) => {
   ads.slice(0,10).forEach((ad) => {
@@ -83,18 +96,5 @@ const resetMap = () => {
 
   getStartСoordinates();
 };
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
-
-mainPinMarker.addTo(map);
-
-mainPinMarker.on('moveend', (evt) => {
-  address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
-});
 
 export {createMarker, resetMarkers, resetMap, initMap};
